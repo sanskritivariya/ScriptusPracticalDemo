@@ -1,0 +1,72 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "TestUser",
+      "email": "Testuser@gmail.com",
+      "password": "test"
+    },
+    {
+      "id": "2",
+      "name": "DemoUser",
+      "email": "Demouser@gmail.com",
+      "password": "demo"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "1",
+      "name": "TestChat",
+      "lastMessage": "Hi!"
+    },
+    {
+      "id": "2",
+      "name": "React Chat",
+      "lastMessage": "React is awesome!"
+    }
+  ],
+  "messages": [
+    {
+      "id": "1",
+      "conversationId": 1,
+      "text": "Hello General!",
+      "timestamp": "2024-05-07T12:00:00Z",
+      "senderId": "1"
+    },
+    {
+      "id": "887d",
+      "conversationId": "1",
+      "text": "heklp",
+      "timestamp": "2025-05-07T09:57:58.430Z",
+      "senderId": "2"
+    },
+    {
+      "id": "ce14",
+      "conversationId": "2",
+      "text": "hello",
+      "timestamp": "2025-05-07T10:00:15.526Z",
+      "senderId": "1"
+    },
+    {
+      "id": "4a10",
+      "conversationId": "1",
+      "text": "hi",
+      "timestamp": "2025-05-07T10:00:27.866Z",
+      "senderId": "1"
+    },
+    {
+      "id": "3de7",
+      "conversationId": "2",
+      "text": "hi",
+      "timestamp": "2025-05-07T10:03:37.728Z",
+      "senderId": "1"
+    },
+    {
+      "id": "fb46",
+      "conversationId": "1",
+      "text": "hi",
+      "timestamp": "2025-05-07T10:05:42.431Z",
+      "senderId": "1"
+    }
+  ]
+}
