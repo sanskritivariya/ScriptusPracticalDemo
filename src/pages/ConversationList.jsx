@@ -13,6 +13,7 @@ import apiGet from "../services/commonApi";
 
 const ConversationList = () => {
   const [conversations, setConversations] = useState([]);
+  const [drafts, setDrafts] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,8 @@ const ConversationList = () => {
     }
 
     getConversations();
+    const savedDrafts = JSON.parse(localStorage.getItem("drafts") || "{}");
+    setDrafts(savedDrafts);
   }, []);
 
   const getConversations = async () => {
@@ -42,31 +45,41 @@ const ConversationList = () => {
 
       <Paper elevation={2} sx={{ p: 2 }}>
         <List>
-          {conversations.map((item) => (
-            <ListItem
-              key={item.id}
-              onClick={() => navigate(`/conversations/${item.id}`)}
-              sx={{
-                mb: 1,
-                borderRadius: 1,
-                backgroundColor: "#fff",
-                cursor: "pointer",
-                '&:hover': { backgroundColor: "#f0f9ff" },
-              }}
-            >
-              <Avatar sx={{ mr: 2 }}>
-                {item.name?.[0]?.toUpperCase()}
-              </Avatar>
-              <ListItemText
-                primary={item.name}
-                secondary={
-                  item.lastMessage
-                    ? `Last message: ${item.lastMessage}`
-                    : "No messages yet"
-                }
-              />
-            </ListItem>
-          ))}
+          {conversations.map((item) => {
+            const draftText = drafts[item.id];
+
+            return (
+              <ListItem
+                key={item.id}
+                onClick={() => navigate(`/conversations/${item.id}`)}
+                sx={{
+                  mb: 1,
+                  borderRadius: 1,
+                  backgroundColor: "#fff",
+                  cursor: "pointer",
+                  "&:hover": { backgroundColor: "lightblue" },
+                }}
+              >
+                <Avatar sx={{ mr: 2 }}>
+                  {item.name?.[0]?.toUpperCase()}
+                </Avatar>
+
+                <ListItemText
+                  primary={item.name}
+                  secondary={
+                    draftText
+                      ? `Draft: ${draftText}`
+                      : item.lastMessage
+                      ? `Last message: ${item.lastMessage}`
+                      : "No messages yet"
+                  }
+                  secondaryTypographyProps={{
+                    color: draftText ? "primary" : "text.secondary",
+                  }}
+                />
+              </ListItem>
+            );
+          })}
         </List>
       </Paper>
     </Box>

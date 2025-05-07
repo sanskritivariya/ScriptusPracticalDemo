@@ -13,7 +13,7 @@ import {
 import apiGet from "../services/commonApi";
 
 const ChatPage = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // to get id from route
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
@@ -31,7 +31,11 @@ const ChatPage = () => {
 
   useEffect(() => {
     fetchMessages();
+    const drafts = JSON.parse(localStorage.getItem("drafts") || "{}");
+    setMessage(drafts[id] || "");
   }, [id]);
+
+ 
 
   const fetchMessages = async () => {
     try {
@@ -41,26 +45,39 @@ const ChatPage = () => {
       console.error("Fetch error:", err);
     }
   };
-
   const sendMessage = async () => {
     if (!message.trim() || !currentUser) return;
-
-    const newMessage = {
-      conversationId: id,
-      text: message,
-      timestamp: new Date().toISOString(),
-      senderId: currentUser.id,
-    };
-
+  
     try {
+      const newMessage = {
+        conversationId: id,
+        text: message,
+        timestamp: new Date().toISOString(),
+        senderId: currentUser.id,
+      };
+  
       await axios.post("http://localhost:3000/messages", newMessage);
       setMessage("");
+  
+     
+      const drafts = JSON.parse(localStorage.getItem("drafts") || "{}");
+      delete drafts[id];
+      localStorage.setItem("drafts", JSON.stringify(drafts));
+  
       fetchMessages();
     } catch (err) {
-      console.error("Send error:", err);
+      console.error("Error sending message:", err);
     }
   };
-
+  
+  const handleChange=(e)=>{
+    const newMessage = e.target.value;
+    setMessage(newMessage);
+  
+    const drafts = JSON.parse(localStorage.getItem("drafts") || "{}");
+    drafts[id] = newMessage;
+    localStorage.setItem("drafts", JSON.stringify(drafts));
+  }
   return (
     <Box sx={{ p: 2, maxWidth: 600, mx: "auto" }}>
       <Paper sx={{ p: 2 }}>
@@ -106,7 +123,7 @@ const ChatPage = () => {
             size="small"
             label="Message"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={handleChange}
           />
           <Button variant="contained" onClick={sendMessage}>
             Send
