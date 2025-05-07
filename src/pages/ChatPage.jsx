@@ -11,7 +11,10 @@ import {
   Button,
 } from "@mui/material";
 import apiGet from "../services/commonApi";
+import CommonButton from "../common/CommonButton";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const ChatPage = () => {
   const { id } = useParams(); // to get id from route
   const [messages, setMessages] = useState([]);
@@ -81,7 +84,17 @@ const ChatPage = () => {
   return (
     <Box sx={{ p: 2, maxWidth: 600, mx: "auto" }}>
       <Paper sx={{ p: 2 }}>
-        <Typography variant="h6">Chat</Typography>
+      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+    <Button
+      variant="text"
+      onClick={() => navigate(-1)}
+      sx={{ minWidth: "auto", p: 0, mr: 1 }}
+    >
+      <ArrowBackIosIcon />
+    </Button>
+    <Typography variant="h6">Chat</Typography>
+  </Box>
+     
 
         <List sx={{ maxHeight: 300, overflowY: "auto", my: 2 }}>
           {messages.length === 0 ? (
@@ -125,9 +138,9 @@ const ChatPage = () => {
             value={message}
             onChange={handleChange}
           />
-          <Button variant="contained" onClick={sendMessage}>
-            Send
-          </Button>
+         
+
+          <CommonButton  variant="contained" onClick={sendMessage}  buttonName={"Send"}/>
         </Box>
       </Paper>
     </Box>
